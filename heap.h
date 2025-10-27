@@ -21,7 +21,7 @@ struct MinHeap {
     }
 
     int pop(int weightArr[]) {
-        if (size == 0) {
+        if (size == 0) { //Just checking if the heap is empty
             return -1;
         }
 
