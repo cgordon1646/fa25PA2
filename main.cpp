@@ -126,10 +126,29 @@ int buildEncodingTree(int nextFree) {
 
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
-    // TODO:
-    // Use stack<pair<int, string>> to simulate DFS traversal.
-    // Left edge adds '0', right edge adds '1'.
-    // Record code when a leaf node is reached.
+    // Empty tree
+    if (root == -1) return;
+
+    std::stack<std::pair<int, std::string>> st;
+    st.push({root, ""});
+
+    while (!st.empty()) {
+        auto [u, path] = st.top();
+        st.pop();
+
+        if (leftArr[u] == -1 && rightArr[u] == -1) {
+            char c = charArr[u];
+            if (path.empty()) path = "0";
+            if (c >= 'a' && c <= 'z') {
+                codes[c - 'a'] = path;  // Record code when a leaf node is reached.
+            }
+            continue;
+        }
+
+        // Left edge adds '0', right edge adds '1'.
+        if (rightArr[u] != -1) st.push({rightArr[u], path + "1"});
+        if (leftArr[u]  != -1) st.push({leftArr[u],  path + "0"});
+    }
 }
 
 // Step 5: Print table and encoded message
